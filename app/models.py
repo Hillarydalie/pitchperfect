@@ -1,4 +1,5 @@
 from . import db,login_manager
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -10,13 +11,14 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255),nullable=False, unique=True)
     email = db.Column(db.String(255),nullable=False, unique=True)
     password = db.Column(db.String(255),nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
 
     # Our function forsaving the user objects
     def save(self):
         db.session.add(self)
         db.session.commit()
 
-    # Our function for deleting 
+    # Our function for deleting  
     def delete(self):
         db.session.delete(self)
         db.session.commit()
@@ -33,6 +35,26 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return "User: %s"%str(self.username)
+
+class Post(db.Model):
+    __tablename__="posts"
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    content = db.Column(db.Text, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}','{self.date_posted}')"
+
+# class Comment(db.Model):
+#     id = db.Column(db.Integer,primary_key=True)
+#     title = db.Column(db.String(100), nullable=False)
+#     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+#     content = db.Column(db.Text, nullable=False)
+
+#     def __repr__(self):
+#         return f"Post('{self.title}','{self.date_posted}')"
 
 @login_manager.user_loader
 def user_loader(user_id):
