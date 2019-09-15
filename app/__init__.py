@@ -2,10 +2,12 @@ from flask import Flask
 from config import Config
 from flask_login import login_manager,LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 
 app =  Flask(__name__)
 # Initialise DB
 db = SQLAlchemy(app)
+mail = Mail()
 # initialise login manager
 login_manager = LoginManager(app)
 # Redirect to the login page

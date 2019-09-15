@@ -2,6 +2,7 @@ from flask import render_template,request,redirect,url_for
 from flask_login import login_user,logout_user
 from . import auth
 from app.models import User
+from ..email import mail_message
 
 @auth.route("/login", methods=["GET","POST"])
 def login():
@@ -58,6 +59,20 @@ def signup():
             return redirect(url_for("auth.login"))
         print(username)
     return render_template("signup.html")
+
+@auth.route('/signup',methods = ["GET","POST"])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(email = form.email.data, username = form.username.data, password = form.password.data)
+        db.session.add(user)
+        db.session.commit()
+
+        mail_message("Welcome to Pitch Perfect","email/welcome_user",user.email,user=user)
+
+        return redirect(url_for('auth.login'))
+        title = "New Account"
+    return render_template('auth/signup.html',registration_form = form)
 
 @auth.route("/logout")
 def logout():
