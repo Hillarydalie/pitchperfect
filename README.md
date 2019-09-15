@@ -34,8 +34,8 @@ python manage.py runserver
 * BOOTSTRAP
 * JQUERY
 
-##Bugs Reported
-None at the time of testing. 14th September 2019.
+## Bugs Reported
+* None at the time of testing. 14th September 2019.
 
 ## License 
 MIT License
