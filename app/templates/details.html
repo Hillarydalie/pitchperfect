@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row" id="pallete">
+        <div class="card border-dark mb-3" style="min-width:45%">
+            <div class="card-header">
+                <h3>{{pitch.title}}</h3>
+            </div>
+            <div class="card-body text-dark">
+                <p class="card-text">
+                    {{pitch.category}}
+                </p>
+                <p class="card-text">
+                    {{pitch.description}}
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="/pitch/details/{{pitch.id}}">
+                    <button type="button" class="btn btn-outline-secondary">Add Comment</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
