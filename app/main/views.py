@@ -47,4 +47,13 @@ def pitch_details(pitch_id):
     comments = Comment.query.filter_by(id = pitch_id).all()
     return render_template('details.html',pitch = pitch , comments = comments)
 
+@main.route('/user/<uname>')
+@login_required
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template("profile/profile.html", user = user)
     
