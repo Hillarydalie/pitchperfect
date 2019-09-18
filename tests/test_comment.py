@@ -1,5 +1,5 @@
 import unittest
-from .app import models
+from app.models import Comment
 
 class CommentsTest(unittest.TestCase):
     '''
