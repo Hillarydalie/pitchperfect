@@ -11,7 +11,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(255),nullable=False, unique=True)
     email = db.Column(db.String(255),nullable=False, unique=True)
     password = db.Column(db.String(255),nullable=False)
-    posts = db.relationship('Post', backref='author', lazy=True)
+    posts = db.relationship('Post', backref='author', lazy="dynamic")
+    comments = db.relationship('Comment', backref='author', lazy="dynamic")
 
     # Our function forsaving the user objects
     def save(self):
@@ -36,26 +37,50 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return "User: %s"%str(self.username)
 
+    @login_manager.user_loader
+    def user_loader(user_id):
+        return User.query.get(user_id)
+
 class Post(db.Model):
     __tablename__="posts"
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    content = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    category = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    pitchcomment = db.relationship('Comment', backref='post_user', lazy="dynamic")
+
+
+    def savepost(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # Our function for deleting  
+    def deletepost(self):
+        db.session.delete(self)
+        db.session.commit()
 
     def __repr__(self):
         return f"Post('{self.title}','{self.date_posted}')"
 
-# class Comment(db.Model):
-#     id = db.Column(db.Integer,primary_key=True)
-#     title = db.Column(db.String(100), nullable=False)
-#     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-#     content = db.Column(db.Text, nullable=False)
+class Comment(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    content = db.Column(db.Text, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
-#     def __repr__(self):
-#         return f"Post('{self.title}','{self.date_posted}')"
 
-@login_manager.user_loader
-def user_loader(user_id):
-    return User.query.get(user_id)
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    # Our function for deleting  
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def __repr__(self):
+        return f"Post('{self.title}','{self.date_posted}')"
