@@ -4,7 +4,7 @@ from app import create_app,db
 from app.models import User
 
 # app = create_app()
-app = create_app('production')
+app = create_app()
 
 manager =  Manager(app)
 # Initiate the migrate we import
