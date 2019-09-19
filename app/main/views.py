@@ -57,3 +57,13 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user)
     
+@main.route('/comment/save/<post_id>', methods=['POST','GET'])
+@login_required
+def save_comment(post_id):
+
+    if request.method == 'POST':
+        content = request.form.get('content')
+        new_comment = Comment(content=content, author_id=current_user.id, post_id=post_id)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for('main.pitch_details',pitch_id = post_id))

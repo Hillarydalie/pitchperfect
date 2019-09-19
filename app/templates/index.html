@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+r
 {% block content %}
 
 <!-- Form -->
@@ -64,13 +64,16 @@
                     {{pitch.description}}
                 </p>
                 <p class="card-text">
-                    {{pitch.author}}
+                    {{pitch.author.username}}
                 </p>
             </div>
             <div class="card-footer">
                 <p class="card-text">
                     {{pitch.author}}
                 </p>
+                <a href="/pitch/details/{{pitch.id}}">
+                    <button type="button" class="btn btn-outline-secondary">Add Comment</button>
+                </a>
             </div>
         </div>
     {% endfor %}
