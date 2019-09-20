@@ -3,7 +3,7 @@
 {% block content %}
 
     <div class="row" id="pallete">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card border-dark mb-3">
                 <div class="card-header">
                     <h3>{{pitch.title}}</h3>
@@ -17,37 +17,32 @@
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a href="/pitch/details/{{pitch.id}}">
-                        <button type="button" class="btn btn-outline-secondary">Add Comment</button>
-                    </a>
-                    <div class="modal">
-            <button type="button" class="btn btn-primary" id="commentmodal" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Comment</button>
+                    <button type="button" class="btn btn-primary" id="commentmodal" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Comment</button>                    
 
-            <form action="/comment/save/{{pitch.id}}" method="post">
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4>Enter Your Comment on this.</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Enter comment on pitch here" name="content" id="content" required></textarea>
-                            </div>        
-                           
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Comment</button>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+                        <form action="/comment/save/{{pitch.id}}" method="post">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Enter Your Comment on this.</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <textarea class="form-control" placeholder="Enter comment on pitch here" name="content" id="content" required></textarea>
+                                        </div>        
+                                       
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Comment</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>
@@ -58,10 +53,7 @@
         {% for comment in pitch.pitchcomment %}
             <div class="card text-center">
                 <div class="card-body">
-                    <p class="card-text"> {{ comment.content }} </p>
-                </div>
-                <div class="card-footer">
-                    <p class="card-text">{{ comment.author.username }}</p>
+                    <p class="card-text"> "{{ comment.content }}" made by {{ comment.author.username }}</p>
                 </div>
             </div>
             {% endfor %}
