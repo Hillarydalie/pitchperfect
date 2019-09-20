@@ -51,11 +51,6 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     pitchcomment = db.relationship('Comment', backref='post_user', lazy="dynamic")
 
-
-    def savepost(self):
-        db.session.add(self)
-        db.session.commit()
-
     # Our function for deleting  
     def deletepost(self):
         db.session.delete(self)
@@ -70,11 +65,6 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
-
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
     # Our function for deleting  
     def delete(self):

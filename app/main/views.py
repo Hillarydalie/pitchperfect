@@ -56,13 +56,15 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
-    
+
+# ROute to page you want to display commments on
 @main.route('/comment/save/<post_id>', methods=['POST','GET'])
 @login_required
+# Generate new fucntion for saving ccomment 
 def save_comment(post_id):
 
-    if request.method == 'POST':
-        content = request.form.get('content')
+    if request.method == 'POST': #Get comment from form
+        content = request.form.get('content') 
         new_comment = Comment(content=content, author_id=current_user.id, post_id=post_id)
         db.session.add(new_comment)
         db.session.commit()
