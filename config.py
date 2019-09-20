@@ -6,7 +6,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS=True
     SQLALCHEMY_DATABASE_URI='postgresql+psycopg2://hillarydalie:password@localhost:5432/pitchperfect'
 
-class ProdConfig(Config):
+class ProdConfig:
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
  # email configurations
